@@ -11,5 +11,7 @@ func main() {
 	if err != nil {
 		log.Fatalln("Couln't reliably find golang version [comment this code block out if you are using more than go1.8]", err)
 	}
-	log.Println(version)
+	if version < 9 {
+		log.Fatalln("Minimum version go1.8 required for this project")
+	}
 }
