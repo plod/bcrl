@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func main() {
+func init() {
 	version, err := strconv.Atoi(runtime.Version()[4:])
 	if err != nil {
 		log.Fatalln("Couln't reliably find golang version [comment this code block out if you are using more than go1.8]", err)
@@ -14,4 +14,8 @@ func main() {
 	if version < 9 {
 		log.Fatalln("Minimum version go1.8 required for this project")
 	}
+}
+
+func main() {
+
 }
