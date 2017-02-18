@@ -1,7 +1,11 @@
 package main
 
 import (
+	"context"
 	"log"
+	"net/http"
+	"os"
+	"os/signal"
 	"runtime"
 	"strconv"
 )
@@ -17,5 +21,38 @@ func init() {
 }
 
 func main() {
-	log.Println("Great you have a good enough version")
+	stop := make(chan os.Signal)
+
+	signal.Notify(stop, os.Interrupt)
+
+	addr := ":" + os.Getenv("PORT")
+	if addr == ":" {
+		addr = ":2017"
+	}
+
+	h := &http.Server{Addr: addr, Handler: &server{}}
+
+	logger := log.New(os.Stdout, "", 0)
+
+	go func() {
+		logger.Printf("Listening on http://0.0.0.0%s\n", addr)
+
+		if err := h.ListenAndServe(); err != nil {
+			logger.Fatal(err)
+		}
+	}()
+
+	<-stop
+
+	logger.Println("\nShutting down the server...")
+
+	h.Shutdown(context.Background())
+
+	logger.Println("Server gracefully stopped")
+}
+
+type server struct{}
+
+func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello, World!"))
 }
