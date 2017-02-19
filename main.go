@@ -8,7 +8,13 @@ import (
 	"os/signal"
 	"runtime"
 	"strconv"
+
+	"github.com/fatih/color"
 )
+
+var yellow = color.New(color.FgYellow).SprintFunc()
+var red = color.New(color.FgWhite, color.BgRed).SprintFunc()
+var green = color.New(color.FgGreen).SprintFunc()
 
 func init() {
 	version, err := strconv.Atoi(runtime.Version()[4:])
