@@ -38,13 +38,11 @@ func main() {
 
 	h := &http.Server{Addr: addr, Handler: &server{}}
 
-	logger := log.New(os.Stdout, "", 0)
-
 	go func() {
-		logger.Printf("Listening on http://0.0.0.0%s\n", addr)
+		log.Println(green("INFO"), "Starting HTTP server at", addr)
 
 		if err := h.ListenAndServe(); err != nil {
-			logger.Fatal(err)
+			log.Printf(red("ERR")+" listen: %s\n", err)
 		}
 	}()
 
