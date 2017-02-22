@@ -48,11 +48,11 @@ func main() {
 
 	<-stop
 
-	logger.Println("\nShutting down the server...")
+	log.Println(yellow("WARN"), "Shutting down server...")
 
 	h.Shutdown(context.Background())
 
-	logger.Println("Server gracefully stopped")
+	log.Println(red("Server gracefully stopped"))
 }
 
 type server struct{}
