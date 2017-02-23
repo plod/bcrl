@@ -41,8 +41,8 @@ func main() {
 	go func() {
 		log.Println(green("INFO"), "Starting HTTP server at", addr)
 
-		if err := h.ListenAndServe(); err != nil {
-			log.Printf(red("ERR")+" listen: %s\n", err)
+		if err := h.ListenAndServe(); err != http.ErrServerClosed {
+			log.Printf(red("ERROR")+" listen: %s\n", err)
 		}
 	}()
 
@@ -50,7 +50,9 @@ func main() {
 
 	log.Println(yellow("WARN"), "Shutting down server...")
 
-	h.Shutdown(context.Background())
+	if err := h.Shutdown(context.Background()); err != nil {
+		log.Fatalf(red("ERROR ")+"could not shutdown: %v\n", err)
+	}
 
 	log.Println(red("Server gracefully stopped"))
 }
