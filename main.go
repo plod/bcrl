@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"log"
 	"net/http"
 	"os"
@@ -15,6 +16,17 @@ import (
 var yellow = color.New(color.FgYellow).SprintFunc()
 var red = color.New(color.FgWhite, color.BgRed).SprintFunc()
 var green = color.New(color.FgGreen).SprintFunc()
+
+var port = flag.String("port", "8080", "TCP port to listen on")
+
+//to generate default certificates
+//
+// go run /usr/local/go/src/crypto/tls/generate_cert.go --host=localhost
+//
+// depetning on personal paths
+var tls = flag.Bool("tls", false, "Use TLS (https) or not")
+var cert = flag.String("cert", "crt/cert.pem", "TLS Certificate")
+var key = flag.String("key", "crt/key.pem", "TLS Key")
 
 func init() {
 	version, err := strconv.Atoi(runtime.Version()[4:])
