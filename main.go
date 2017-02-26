@@ -11,6 +11,7 @@ import (
 	"strconv"
 
 	"github.com/fatih/color"
+	"github.com/gorilla/mux"
 )
 
 var yellow = color.New(color.FgYellow).SprintFunc()
@@ -27,6 +28,8 @@ var port = flag.String("port", "8080", "TCP port to listen on")
 var tls = flag.Bool("tls", false, "Use TLS (https) or not")
 var cert = flag.String("cert", "crt/cert.pem", "TLS Certificate")
 var key = flag.String("key", "crt/key.pem", "TLS Key")
+
+var r = mux.NewRouter()
 
 func init() {
 	version, err := strconv.Atoi(runtime.Version()[4:])
