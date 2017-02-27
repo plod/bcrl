@@ -18,7 +18,8 @@ var yellow = color.New(color.FgYellow).SprintFunc()
 var red = color.New(color.FgWhite, color.BgRed).SprintFunc()
 var green = color.New(color.FgGreen).SprintFunc()
 
-var port = flag.String("port", "8080", "TCP port to listen on")
+var tlsPort = flag.String("tlsPort", "8043", "TCP port to listen for tls on")
+var port = flag.String("port", "8080", "TCP port to listen for on")
 
 //to generate default certificates
 //
