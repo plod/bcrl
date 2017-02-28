@@ -11,6 +11,7 @@ import (
 	"strconv"
 
 	"github.com/fatih/color"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -40,6 +41,9 @@ func init() {
 	if version < 8 {
 		log.Fatalln(red("ERROR"), "Minimum version go1.8 required for this project")
 	}
+
+	flag.Parse()
+
 }
 
 func main() {
@@ -47,14 +51,12 @@ func main() {
 
 	signal.Notify(stop, os.Interrupt)
 
-	addr := ":" + os.Getenv("PORT")
-	if addr == ":" {
-		addr = ":2017"
-	}
+	addr := ":" + *port
+	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, r)
 
-	h := &http.Server{Addr: addr, Handler: &server{}}
-
+	h := &http.Server{Addr: addr, Handler: loggedRouter}
 	go func() {
+
 		log.Println(green("INFO"), "Starting HTTP server at", addr)
 
 		if err := h.ListenAndServe(); err != http.ErrServerClosed {
