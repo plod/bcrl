@@ -50,9 +50,9 @@ func main() {
 	stop := make(chan os.Signal)
 
 	signal.Notify(stop, os.Interrupt)
+	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, r)
 
 	addr := ":" + *port
-	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, r)
 
 	h := &http.Server{Addr: addr, Handler: loggedRouter}
 	go func() {
@@ -73,10 +73,4 @@ func main() {
 	}
 
 	log.Println(red("Server gracefully stopped"))
-}
-
-type server struct{}
-
-func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, World!"))
 }
