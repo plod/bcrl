@@ -53,11 +53,21 @@ func main() {
 	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, r)
 
 	addr := ":" + *port
-
 	h := &http.Server{Addr: addr, Handler: loggedRouter}
 	go func() {
 
 		log.Println(green("INFO"), "Starting HTTP server at", addr)
+
+		if err := h.ListenAndServe(); err != http.ErrServerClosed {
+			log.Printf(red("ERROR")+" listen: %s\n", err)
+		}
+	}()
+
+	addrTLS := ":" + *tlsPort
+	hTLS := &http.Server{Addr: addrTLS, Handler: loggedRouter}
+	go func() {
+
+		log.Println(green("INFO"), "Starting HTTPS server at", addr)
 
 		if err := h.ListenAndServe(); err != http.ErrServerClosed {
 			log.Printf(red("ERROR")+" listen: %s\n", err)
