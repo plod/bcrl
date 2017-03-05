@@ -64,12 +64,12 @@ func main() {
 	}()
 
 	addrTLS := ":" + *tlsPort
-	hTLS := &http.Server{Addr: addrTLS, Handler: loggedRouter, Certificate: *cert, Key: *key}
+	hTLS := &http.Server{Addr: addrTLS, Handler: loggedRouter}
 	go func() {
 
 		log.Println(green("INFO"), "Starting HTTPS server at", addr)
 
-		if err := hTLS.ListenAndServeTLS(); err != http.ErrServerClosed {
+		if err := hTLS.ListenAndServeTLS(*cert, *key); err != http.ErrServerClosed {
 			log.Printf(red("ERROR")+" listen TLS: %s\n", err)
 		}
 	}()
