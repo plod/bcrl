@@ -82,5 +82,9 @@ func main() {
 		log.Fatalf(red("ERROR ")+"could not shutdown: %v\n", err)
 	}
 
+	if err := hTLS.Shutdown(context.Background()); err != nil {
+		log.Fatalf(red("ERROR ")+"could not shutdown: %v\n", err)
+	}
+
 	log.Println(red("Server gracefully stopped"))
 }
