@@ -86,5 +86,5 @@ func main() {
 		log.Fatalf(red("ERROR ")+"could not shutdown: %v\n", err)
 	}
 
-	log.Println(red("Server gracefully stopped"))
+	log.Println(red("Servers gracefully stopped"))
 }
