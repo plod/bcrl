@@ -21,6 +21,7 @@ var green = color.New(color.FgGreen).SprintFunc()
 
 var tlsPort = flag.String("tlsPort", "8043", "TCP port to listen for tls on")
 var port = flag.String("port", "8080", "TCP port to listen for on")
+var hostname = flag.String("hostname", "localhost", "FQDN of the url")
 
 //to generate default certificates
 //
@@ -50,6 +51,9 @@ func main() {
 	stop := make(chan os.Signal)
 
 	signal.Notify(stop, os.Interrupt)
+
+	uencMux := mux.NewRouter()
+	uencMux.HandleFunc("/", redirectHandler)
 	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, r)
 
 	addr := ":" + *port
