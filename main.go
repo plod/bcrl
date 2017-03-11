@@ -54,7 +54,7 @@ func main() {
 
 	uencMux := mux.NewRouter()
 	uencMux.HandleFunc("/", redirectHandler)
-	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, r)
+	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, uencMux)
 
 	addr := ":" + *port
 	h := &http.Server{Addr: addr, Handler: loggedRouter}
@@ -68,7 +68,8 @@ func main() {
 	}()
 
 	addrTLS := ":" + *tlsPort
-	hTLS := &http.Server{Addr: addrTLS, Handler: loggedRouter}
+	loggedTLSRouter := handlers.CombinedLoggingHandler(os.Stdout, r)
+	hTLS := &http.Server{Addr: addrTLS, Handler: loggedTLSRouter}
 	go func() {
 
 		log.Println(green("INFO"), "Starting HTTPS server at", addrTLS)
@@ -91,4 +92,12 @@ func main() {
 	}
 
 	log.Println(red("Servers gracefully stopped"))
+}
+
+func redirectHandler(w http.ResponseWriter, r *http.Request) {
+	redirectURL := "https://" + *hostname
+	if *tlsPort != "443" {
+		redirectURL += ":" + *tlsPort
+	}
+	http.Redirect(w, r, redirectURL, 301)
 }
