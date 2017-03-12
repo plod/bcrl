@@ -53,7 +53,7 @@ func main() {
 	signal.Notify(stop, os.Interrupt)
 
 	uencMux := mux.NewRouter()
-	uencMux.HandleFunc("/", redirectHandler)
+	uencMux.HandleFunc("/{.*}", redirectHandler)
 	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, uencMux)
 
 	addr := ":" + *port
