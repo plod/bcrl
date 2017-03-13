@@ -52,8 +52,7 @@ func main() {
 
 	signal.Notify(stop, os.Interrupt)
 
-	uencMux := mux.NewRouter()
-	uencMux.HandleFunc("/{.*}", redirectHandler)
+	var uencMux redirecter
 	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, uencMux)
 
 	addr := ":" + *port
@@ -94,10 +93,14 @@ func main() {
 	log.Println(red("Servers gracefully stopped"))
 }
 
-func redirectHandler(w http.ResponseWriter, r *http.Request) {
+type redirecter struct{}
+
+func (s redirecter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.URL.RequestURI())
 	redirectURL := "https://" + *hostname
 	if *tlsPort != "443" {
 		redirectURL += ":" + *tlsPort
 	}
+	redirectURL += r.URL.RequestURI()
 	http.Redirect(w, r, redirectURL, 301)
 }
