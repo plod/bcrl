@@ -9,6 +9,28 @@ import (
 var r = mux.NewRouter()
 
 func init() {
+
+	about := notImplemented()
+	contact := notImplemented()
+	rules := notImplemented()
+	pictures := notImplemented()
+	login := notImplemented()
+	logout := notImplemented()
+	signup := notImplemented()
+	results := notImplemented()
+	events := notImplemented()
+	authdHome := notImplemented()
+	authdEdit := notImplemented()
+	authdMyResults := notImplemented()
+	authdEnter := notImplemented()
+	adminClubAdd := notImplemented()
+	adminClubEdit := notImplemented()
+	adminEventAdd := notImplemented()
+	adminEventEdit := notImplemented()
+	adminResultAdd := notImplemented()
+	adminResultEdit := notImplemented()
+	notFound := notImplemented()
+
 	//generic pages
 	r.HandleFunc("/", home)
 	r.HandleFunc("/about", about)
@@ -26,6 +48,7 @@ func init() {
 	r.HandleFunc("/events/{year}/{event}", events)
 
 	//static assets
+	fs := http.FileServer(http.Dir("assets"))
 	r.PathPrefix("/assets").Handler(fs)
 
 	//logged in sub router
@@ -34,10 +57,10 @@ func init() {
 	//for every user
 	// * need to add middleWare to check user is authd at this point
 	au.HandleFunc("/", authdHome)
-	au.HandleFunc("/edit", authEdit)
-	au.HandleFunc("/myresults", authMyResults)
+	au.HandleFunc("/edit", authdEdit)
+	au.HandleFunc("/myresults", authdMyResults)
 
-	au.HandleFunc("/enter/{year}/{event}", authEnter)
+	au.HandleFunc("/enter/{year}/{event}", authdEnter)
 
 	//for admins lots of middleware needed as described
 	ad := r.PathPrefix("/admin").Subrouter()
@@ -51,5 +74,5 @@ func init() {
 	ad.HandleFunc("/result/add", adminResultAdd)                  //needs middleware super user only
 	ad.HandleFunc("/result/edit/{year}/{event}", adminResultEdit) //needs middleware super user only
 
-	router.NotFoundHandler = http.HandlerFunc(notFound)
+	r.NotFoundHandler = http.HandlerFunc(notFound)
 }

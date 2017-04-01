@@ -50,7 +50,7 @@ func main() {
 	signal.Notify(stop, os.Interrupt)
 
 	var uencMux redirecter
-	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, uencMux)
+	loggedRouter := handlers.CombinedLoggingHandler(os.Stdout, uencMux) //write this to log file later
 
 	addr := ":" + *port
 	h := &http.Server{Addr: addr, Handler: loggedRouter}
@@ -64,7 +64,7 @@ func main() {
 	}()
 
 	addrTLS := ":" + *tlsPort
-	loggedTLSRouter := handlers.CombinedLoggingHandler(os.Stdout, r)
+	loggedTLSRouter := handlers.CombinedLoggingHandler(os.Stdout, r) //write this to log file later
 	hTLS := &http.Server{Addr: addrTLS, Handler: loggedTLSRouter}
 	go func() {
 
