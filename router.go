@@ -48,7 +48,7 @@ func init() {
 	r.HandleFunc("/events/{year}/{event}", events)
 
 	//static assets
-	fs := http.FileServer(http.Dir("assets"))
+	fs := http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets/")))
 	r.PathPrefix("/assets").Handler(fs)
 
 	//logged in sub router
