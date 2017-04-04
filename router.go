@@ -29,7 +29,7 @@ func init() {
 	adminEventEdit := notImplemented()
 	adminResultAdd := notImplemented()
 	adminResultEdit := notImplemented()
-	notFound := notImplemented()
+	notFound := notFound
 
 	//generic pages
 	r.HandleFunc("/", home)
