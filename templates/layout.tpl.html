@@ -22,6 +22,10 @@
     <link href="/assets/bcrl.css" rel="stylesheet">
     <!-- favicon -->
     <link rel="shortcut icon" type="image/png" href="/assets/favicon.png"/>
+    <!-- fontawesome -->
+    <script src="https://use.fontawesome.com/2ab403e75d.js"></script>
+    <!-- social-sign-in-->
+    <link href="/assets/bootstrap-social.css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -35,16 +39,23 @@
           </button>
           <a class="navbar-brand" href="#">Bridgend County Running League</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">{{block "login" .}}
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>{{end}}
+        <div id="navbar" class="navbar-right navbar-collapse collapse">{{block "login" .}}<span class="navbar-text">Sign in <div class="btn-group" role="group" aria-label="sign-in">
+          <button type="button" class="btn btn-social-icon btn-facebook">
+            <i class="fa fa-facebook"></i>
+          </button>
+          <button type="button" class="btn btn-social-icon btn-twitter">
+            <i class="fa fa-twitter"></i>
+          </button>
+          <button type="button" class="btn btn-social-icon btn-soundcloud">
+            <i class="fa fa-user-o"></i>
+          </button>
+            <button type="button" class="btn btn-social-icon btn-google">
+            <i class="fa fa-google"></i>
+          </button>
+          <button type="button" class="btn btn-social-icon btn-success">
+            <i class="fa fa-envelope-o"></i>
+          </button>
+            </div>{{end}}
         </div><!--/.navbar-collapse -->
       </div>
     </nav>

@@ -17,7 +17,7 @@ type TemplateData struct {
 	Year      int
 }
 
-var pushPromises = [...]string{"/assets/bcrl.css", "/assets/favicon.png"}
+var pushPromises = [...]string{"/assets/bcrl.css", "/assets/bootstrap-social.css", "/assets/favicon.png"}
 
 func notImplemented() func(w http.ResponseWriter, req *http.Request) {
 	return func(w http.ResponseWriter, req *http.Request) {
